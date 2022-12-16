@@ -1,0 +1,39 @@
+//SPDX-License-Identifier: MIT
+
+pragma solidity ^0.6.0;
+
+import "./SimpleStorage.sol";
+
+//the following is a way to deploy contract from another file and interact with that contact
+
+contract StorageFactory {
+    SimpleStorage[] public simpleStorageArray;
+
+    function createSimpleStorageContract() public {
+        //a variabel of type SimpleStorage contract
+        // name simpleStorage
+        // which is a new SimpleStorage contract
+        // we are gonna create an object of type SimpleStorage contract and name it simpleStorage. And this gonna be new SimpleStorage contract
+        SimpleStorage simpleStorage = new SimpleStorage();
+        simpleStorageArray.push(simpleStorage);
+    }
+
+    function sfstore(uint256 _simpleStorageIndex, uint256 _favNumToStore) public {
+        // to interact with the contract we need two things 1. address and 2. ABI
+
+        // SimpleStorage simpleStorage = SimpleStorage(address(simpleStorageArray[_simpleStorageIndex]));
+        // simpleStorage.store(_simpleStorageNumber);
+
+        //refactoring  sfstore function
+        return SimpleStorage(address(simpleStorageArray[_simpleStorageIndex])).store(_favNumToStore);
+
+    }
+
+    function sfGet(uint256 _simpleStorageIndex) public view returns(uint256) {
+        // SimpleStorage simpleStorage = SimpleStorage(address(simpleStorageArray[_simpleStorageIndex]));
+        // return simpleStorage.retrieve();
+
+        //refactoring  sfstore function
+        return SimpleStorage(address(simpleStorageArray[_simpleStorageIndex])).retrieve();
+    }
+}
